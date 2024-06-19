@@ -3,16 +3,24 @@
 let cityName = "Austin";
 let stateCode = "TX";
 let countryCode = "US";
+
+// Latitude and longitude to plug into weather API
 let lat;
 let lon;
 
+// Set up query URLs
 const apiKey = "0c1d7915ad2662f0e450b432130b6989";
 const forecastQueryUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
 const geoQueryUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`;
 
+// Get handle on certain elements globally
 const submitButton = document.querySelector('#btn-submit');
 const currentWeatherCard = document.querySelector('#current-weather-card');
-const forecastCardSection = document.querySelector('#forecast-cards')
+const forecastCardSection = document.querySelector('#forecast-cards');
+
+// Get search history from localStorage
+
+let searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
 
 
 
@@ -26,6 +34,8 @@ function latLonQuery(query, city, state, country) {
     cityName = city;
     stateCode = state;
     countryCode = country;
+
+    // Get latitude and longitude by city name
     fetch(query)
         .then(function (response) {
             console.log(response);
@@ -77,6 +87,9 @@ function getWeather(query) {
 function search() {
 
 
+    latLonQuery(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`)
+
+
 
 }
 
@@ -105,7 +118,7 @@ function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
     currentWeatherCard.append(currentTemp);
 
     const currentWind = document.createElement('p');
-    currentWind.textContent = `Wind Speed: ${wind} MPH`;
+    currentWind.textContent = `Wind Speed: ${Math.round(wind)} MPH`;
 
     currentWeatherCard.append(currentWind);
 
@@ -148,7 +161,7 @@ function createForecastCards(date, temp, wind, humidity, sky) {
     forecastWeatherCard.append(currentTemp);
 
     const currentWind = document.createElement('p');
-    currentWind.textContent = `Wind Speed: ${wind} MPH`;
+    currentWind.textContent = `Wind Speed: ${Math.round(wind)} MPH`;
 
     forecastWeatherCard.append(currentWind);
 
@@ -162,6 +175,7 @@ function createForecastCards(date, temp, wind, humidity, sky) {
 
 }
 
+
 // Create function for rendering search history, only allow a certain amount into the history
 
 // Create function to convert city to lat and long to plug into forecast api
@@ -174,3 +188,4 @@ function createForecastCards(date, temp, wind, humidity, sky) {
 latLonQuery(geoQueryUrl, cityName, stateCode, countryCode);
 console.log(lat, lon);
 
+submitButton.addEventListener('click', search());
