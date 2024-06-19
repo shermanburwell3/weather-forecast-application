@@ -35,7 +35,8 @@ function latLonQuery(query, city, state, country) {
                 console.log(lat, lon);
                 console.log(data[0].lat, data[0].lon);
                 setLatLon(data[0].lat, data[0].lon);
-                
+                const updatedForecastQueryUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+                getWeather(updatedForecastQueryUrl);  
             });
             
 }
@@ -84,4 +85,4 @@ function search() {
 
 latLonQuery(geoQueryUrl, cityName, stateCode, countryCode);
 console.log(lat, lon);
-getWeather(forecastQueryUrl);
+
