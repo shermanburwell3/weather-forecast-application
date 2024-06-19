@@ -1,0 +1,10 @@
+aside {
+    display: inline;
+    float: left;
+}
+
+#forecast-cards div {
+    display: inline-block;
+    margin-left: 25px;
+    margin-right: 25px;
+}

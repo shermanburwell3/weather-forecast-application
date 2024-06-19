@@ -64,6 +64,11 @@ function getWeather(query) {
                 
                 // create 5 day forecast cards
 
+                createForecastCards(data.list[3].dt_txt, data.list[3].main.temp, data.list[3].wind.speed, data.list[3].main.humidity, data.list[3].weather[0].icon);
+                createForecastCards(data.list[11].dt_txt, data.list[11].main.temp, data.list[11].wind.speed, data.list[11].main.humidity, data.list[11].weather[0].icon);
+                createForecastCards(data.list[19].dt_txt, data.list[19].main.temp, data.list[19].wind.speed, data.list[19].main.humidity, data.list[19].weather[0].icon);
+                createForecastCards(data.list[27].dt_txt, data.list[27].main.temp, data.list[27].wind.speed, data.list[27].main.humidity, data.list[27].weather[0].icon);
+                createForecastCards(data.list[35].dt_txt, data.list[35].main.temp, data.list[35].wind.speed, data.list[35].main.humidity, data.list[35].weather[0].icon);
             });
 }
 
@@ -117,6 +122,45 @@ function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
 
 
 // Create function for creating forecast weather cards
+
+function createForecastCards(date, temp, wind, humidity, sky) {
+
+    const forecastWeatherCard = document.createElement('div');
+
+    const forecastDate = document.createElement('h4');
+    forecastDate.textContent = date;
+
+    forecastWeatherCard.append(forecastDate);
+
+    const skyCondition = document.createElement('p');
+    const skyIcon = document.createElement('img');
+    
+    skyCondition.textContent = `Sky Condition: `
+    skyIcon.setAttribute('src', "http://openweathermap.org/img/w/" + sky + ".png");
+
+    skyCondition.append(skyIcon);
+    forecastWeatherCard.append(skyCondition);
+
+    const currentTemp = document.createElement('p'); 
+
+    currentTemp.textContent = `Temp: ${Math.round(temp)} F`;
+    
+    forecastWeatherCard.append(currentTemp);
+
+    const currentWind = document.createElement('p');
+    currentWind.textContent = `Wind Speed: ${wind} MPH`;
+
+    forecastWeatherCard.append(currentWind);
+
+    const currentHumidity = document.createElement('p');
+    currentHumidity.textContent = `Humidity: ${humidity}%`
+
+    forecastWeatherCard.append(currentHumidity);
+    forecastCardSection.append(forecastWeatherCard);
+
+
+
+}
 
 // Create function for rendering search history, only allow a certain amount into the history
 
