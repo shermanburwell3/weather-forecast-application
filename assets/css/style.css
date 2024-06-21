@@ -1,12 +1,19 @@
+header {
+    justify-content: center;
+}
+
 aside {
     display: inline;
     float: left;
     min-width: 200px;
     min-height: 500px;
 }
+
 aside label {
     display: block;
 }
+
+
 
 .search-history .search-button {
     display: block;
@@ -18,11 +25,16 @@ aside label {
     color: white;
 }
 
+#current-weather-card {
+    margin-left: 250px;
+    float: center;
+}
+
 #forecast-cards div {
     display: inline-block;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-bottom: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
     border-style: solid;
     border-color: black;
 }

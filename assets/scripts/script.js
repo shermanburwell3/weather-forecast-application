@@ -17,6 +17,7 @@ const geoQueryUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},
 const submitButton = document.querySelector('#btn-submit');
 const currentWeatherCard = document.querySelector('#current-weather-card');
 const forecastCardSection = document.querySelector('#forecast-cards');
+const searchAside = document.querySelector('.search-history');
 
 // Get search history from localStorage
 
@@ -227,12 +228,17 @@ function checkSearchHistory(data)
 
 // Create function for rendering search history, only allow a certain amount into the history
 function generateSearchHistory() {
-    const searchAside = document.querySelector('.search-history');
     if (searchHistory) {
         for (let i = 0; i < searchHistory.length; i++) {
             const newButton = document.createElement('button');
             newButton.setAttribute('type', 'submit');
             newButton.setAttribute('class', 'search-button')
+            
+            // Set datasets with appropriate data
+            newButton.setAttribute('data-city', searchHistory[i].city);
+            newButton.setAttribute('data-lat', searchHistory[i].lat);
+            newButton.setAttribute('data-lon', searchHistory[i].lon);
+            
             newButton.textContent = searchHistory[i].city;
             searchAside.append(newButton);
         }
@@ -249,3 +255,13 @@ latLonQuery(geoQueryUrl);
 console.log(lat, lon);
 
 submitButton.addEventListener('click', search);
+searchAside.addEventListener('click', function (event) {
+    if (event.target.classList.contains('search-button')) {
+        
+        //Set lat and lon and call the geo query function
+        lat = event.target.getAttribute('data-lat');
+        lon = event.target.getAttribute('data-lon');
+        getWeather(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
+    }
+});
+
