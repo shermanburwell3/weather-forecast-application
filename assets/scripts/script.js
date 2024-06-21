@@ -38,7 +38,11 @@ function latLonQuery(query) {
             return response.json();
         })
             .then(function (data) {
+                
                 console.log(data);
+
+                checkSearchHistory(data);
+                
                 console.log(lat, lon);
                 console.log(data[0].lat, data[0].lon);
                 setLatLon(data[0].lat, data[0].lon);
@@ -189,8 +193,48 @@ function createForecastCards(date, temp, wind, humidity, sky) {
 }
 
 
-// Create function for rendering search history, only allow a certain amount into the history
+// Checks search history to avoid duplicates
 
+function checkSearchHistory(data)
+{
+    let searched = false;
+                if (searchHistory) {
+                    for (let i = 0; i < searchHistory.length; i++) {
+                            if ((searchHistory[i].city == data[0].name) && (searchHistory[i].lat == data[0].lat) && (searchHistory[i].lon == data[0].lon)) {
+                                    searched = true;
+                                }
+                        }
+                    if (!searched) {
+                        if (searchHistory.length >= 10) {
+                            searchHistory.pop();
+                        }
+
+                        searchHistory.unshift({city: data[0].name, 
+                            lat: data[0].lat,
+                            lon: data[0].lon
+                        });
+                        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                        }
+                }
+                else {
+                    searchHistory = [{city: data[0].name, 
+                        lat: data[0].lat,
+                        lon: data[0].lon}]
+                        console.log(searchHistory);
+                    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                }
+}
+
+// Create function for rendering search history, only allow a certain amount into the history
+function generateSearchHistory() {
+    searchAside = document.querySelector('.search-history');
+    for (let i =0; i < searchHistory.length; i++) {
+        const newButton = document.createElement('button');
+        newButton.setAttribute('type', 'submit');
+        newButton.textContent = searchHistory[i];
+        searchAside.append(newButton);
+    }
+}
 // Create function to convert city to lat and long to plug into forecast api
 
 // Event Listener for search submit
