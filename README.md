@@ -22,4 +22,8 @@ https://www.freeformatter.com/usa-state-list-html-select.html
 Setting the default option in a dropdown
 https://www.geeksforgeeks.org/how-to-set-the-default-value-for-an-html-select-element/
 
+Code for removing child elements
+https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+
+
 

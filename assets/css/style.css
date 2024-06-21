@@ -1,11 +1,21 @@
 aside {
     display: inline;
     float: left;
-    min-width: none;
+    min-width: 200px;
     min-height: 500px;
 }
 aside label {
     display: block;
+}
+
+.search-history .search-button {
+    display: block;
+    width: 200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+    background-color: navy;
+    color: white;
 }
 
 #forecast-cards div {

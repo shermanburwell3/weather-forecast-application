@@ -227,12 +227,15 @@ function checkSearchHistory(data)
 
 // Create function for rendering search history, only allow a certain amount into the history
 function generateSearchHistory() {
-    searchAside = document.querySelector('.search-history');
-    for (let i =0; i < searchHistory.length; i++) {
-        const newButton = document.createElement('button');
-        newButton.setAttribute('type', 'submit');
-        newButton.textContent = searchHistory[i];
-        searchAside.append(newButton);
+    const searchAside = document.querySelector('.search-history');
+    if (searchHistory) {
+        for (let i = 0; i < searchHistory.length; i++) {
+            const newButton = document.createElement('button');
+            newButton.setAttribute('type', 'submit');
+            newButton.setAttribute('class', 'search-button')
+            newButton.textContent = searchHistory[i].city;
+            searchAside.append(newButton);
+        }
     }
 }
 // Create function to convert city to lat and long to plug into forecast api
@@ -241,7 +244,7 @@ function generateSearchHistory() {
 
 // Create function to render search history
 
-
+generateSearchHistory();
 latLonQuery(geoQueryUrl);
 console.log(lat, lon);
 
