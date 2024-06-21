@@ -29,11 +29,7 @@ let searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
 
 // Create function for fetching the geographic data
 
-function latLonQuery(query, city, state, country) {
-
-    cityName = city;
-    stateCode = state;
-    countryCode = country;
+function latLonQuery(query) {
 
     // Get latitude and longitude by city name
     fetch(query)
@@ -70,9 +66,16 @@ function getWeather(query) {
                 console.log(data);
                 // create current forecast card
                 console.log(data.list[0].wind.speed, data.list[0].main.temp, data.list[0].weather[0].main);
-                createCurrentWeatherCard(cityName, stateCode, data.list[0].main.temp, data.list[0].wind.speed, data.list[0].main.humidity, data.list[0].weather[0].icon);
+                document
+                createCurrentWeatherCard(data.city.name, stateCode, data.list[0].main.temp, data.list[0].wind.speed, data.list[0].main.humidity, data.list[0].weather[0].icon);
                 
                 // create 5 day forecast cards
+
+                // Remove child elements from card section to remove cards before adding new ones
+                while (forecastCardSection.firstChild)
+                {
+                    forecastCardSection.removeChild(forecastCardSection.lastChild);
+                }
 
                 createForecastCards(data.list[3].dt_txt, data.list[3].main.temp, data.list[3].wind.speed, data.list[3].main.humidity, data.list[3].weather[0].icon);
                 createForecastCards(data.list[11].dt_txt, data.list[11].main.temp, data.list[11].wind.speed, data.list[11].main.humidity, data.list[11].weather[0].icon);
@@ -84,12 +87,13 @@ function getWeather(query) {
 
 // Create function for search submit, add search to localStorage
 
-function search() {
+function search(event) {
 
-
+    event.preventDefault();
+    const cityName = document.querySelector('#city').value;
+    const stateCode = document.querySelector('#state-code').value;
+    console.log("got search data");
     latLonQuery(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`)
-
-
 
 }
 
@@ -97,6 +101,14 @@ function search() {
 
 function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
     
+    
+    // TODO: Add a new parent element so we can more easily use the removeChild function
+
+    while (currentWeatherCard.firstChild)
+        {
+            currentWeatherCard.removeChild(currentWeatherCard.lastChild);
+        }
+
     const currentCity = document.createElement('h2');
     currentCity.textContent = `${city}, ${state}`;
 
@@ -139,6 +151,7 @@ function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
 function createForecastCards(date, temp, wind, humidity, sky) {
 
     const forecastWeatherCard = document.createElement('div');
+    
 
     const forecastDate = document.createElement('h4');
     forecastDate.textContent = date;
@@ -185,7 +198,7 @@ function createForecastCards(date, temp, wind, humidity, sky) {
 // Create function to render search history
 
 
-latLonQuery(geoQueryUrl, cityName, stateCode, countryCode);
+latLonQuery(geoQueryUrl);
 console.log(lat, lon);
 
-submitButton.addEventListener('click', search());
+submitButton.addEventListener('click', search);
