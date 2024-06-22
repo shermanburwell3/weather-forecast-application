@@ -17,7 +17,8 @@ const geoQueryUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},
 const submitButton = document.querySelector('#btn-submit');
 const currentWeatherCard = document.querySelector('#current-weather-card');
 const forecastCardSection = document.querySelector('#forecast-cards');
-const searchAside = document.querySelector('.search-history');
+const searchAsideDiv = document.querySelector('.search-history');
+
 
 // Get search history from localStorage
 
@@ -105,9 +106,9 @@ function search(event) {
 // Create function for creating current weather card (may use dayjs)
 
 function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
+
+    generateSearchHistory();
     
-    
-    // TODO: Add a new parent element so we can more easily use the removeChild function
 
     while (currentWeatherCard.firstChild)
         {
@@ -115,7 +116,7 @@ function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
         }
 
     const currentCity = document.createElement('h2');
-    currentCity.textContent = `${city}, ${state}`;
+    currentCity.textContent = `${city}`;
 
     currentWeatherCard.append(currentCity);
 
@@ -189,8 +190,6 @@ function createForecastCards(date, temp, wind, humidity, sky) {
     forecastWeatherCard.append(currentHumidity);
     forecastCardSection.append(forecastWeatherCard);
 
-
-
 }
 
 
@@ -211,6 +210,7 @@ function checkSearchHistory(data)
                         }
 
                         searchHistory.unshift({city: data[0].name, 
+                            state: data[0].state,
                             lat: data[0].lat,
                             lon: data[0].lon
                         });
@@ -228,6 +228,12 @@ function checkSearchHistory(data)
 
 // Create function for rendering search history, only allow a certain amount into the history
 function generateSearchHistory() {
+
+    while (searchAsideDiv.firstChild)
+        {
+            searchAsideDiv.removeChild(searchAsideDiv.lastChild);
+        }
+
     if (searchHistory) {
         for (let i = 0; i < searchHistory.length; i++) {
             const newButton = document.createElement('button');
@@ -236,11 +242,12 @@ function generateSearchHistory() {
             
             // Set datasets with appropriate data
             newButton.setAttribute('data-city', searchHistory[i].city);
+            newButton.setAttribute('data-state', searchHistory[i].state);
             newButton.setAttribute('data-lat', searchHistory[i].lat);
             newButton.setAttribute('data-lon', searchHistory[i].lon);
             
             newButton.textContent = searchHistory[i].city;
-            searchAside.append(newButton);
+            searchAsideDiv.append(newButton);
         }
     }
 }
@@ -248,14 +255,11 @@ function generateSearchHistory() {
 
 // Event Listener for search submit
 
-// Create function to render search history
-
-generateSearchHistory();
 latLonQuery(geoQueryUrl);
 console.log(lat, lon);
 
 submitButton.addEventListener('click', search);
-searchAside.addEventListener('click', function (event) {
+searchAsideDiv.addEventListener('click', function (event) {
     if (event.target.classList.contains('search-button')) {
         
         //Set lat and lon and call the geo query function
