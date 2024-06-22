@@ -99,7 +99,7 @@ function search(event) {
     const cityName = document.querySelector('#city').value;
     const stateCode = document.querySelector('#state-code').value;
     console.log("got search data");
-    latLonQuery(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`)
+    latLonQuery(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`)
 
 }
 
@@ -124,7 +124,7 @@ function createCurrentWeatherCard(city, state, temp, wind, humidity, sky) {
     const skyIcon = document.createElement('img');
     
     skyCondition.textContent = `Sky Condition: `
-    skyIcon.setAttribute('src', "http://openweathermap.org/img/w/" + sky + ".png");
+    skyIcon.setAttribute('src', "https://openweathermap.org/img/w/" + sky + ".png");
 
     skyCondition.append(skyIcon);
     currentWeatherCard.append(skyCondition);
@@ -168,7 +168,7 @@ function createForecastCards(date, temp, wind, humidity, sky) {
     const skyIcon = document.createElement('img');
     
     skyCondition.textContent = `Sky Condition: `
-    skyIcon.setAttribute('src', "http://openweathermap.org/img/w/" + sky + ".png");
+    skyIcon.setAttribute('src', "https://openweathermap.org/img/w/" + sky + ".png");
 
     skyCondition.append(skyIcon);
     forecastWeatherCard.append(skyCondition);
