@@ -11,7 +11,7 @@ let lon;
 // Set up query URLs
 const apiKey = "0c1d7915ad2662f0e450b432130b6989";
 const forecastQueryUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
-const geoQueryUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`;
+const geoQueryUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&appid=${apiKey}`;
 
 // Get handle on certain elements globally
 const submitButton = document.querySelector('#btn-submit');
